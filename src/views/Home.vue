@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <Toast v-if="showToast" />
+    <Transition name="toast">
+      <Toast v-if="showToast" />
+    </Transition>
     <Todos @badValue="triggerToast" />
   </div>
 </template>
@@ -26,5 +28,28 @@ export default {
 </script>
 
 <style>
+.toast-leave-to {
+  transform: translateY(-60px);
+}
+
+.toast-enter-active {
+  animation: wooble 0.7s ease-out;
+}
+
+.toast-leave-active {
+  transition: all 0.5s ease-out;
+}
+
+@keyframes wooble {
+  0% {transform: translateY(-60px); opacity: 0;}
+  50% {transform: translateY(0); opacity: 1;}
+  60% {transform: translateX(-8px);}
+  65% {transform: translateX(8px);}
+  70% {transform: translateX(-8px);}
+  75% {transform: translateX(8px);}
+  80% {transform: translateX(-4px);}
+  90% {transform: translateX(-4px);}
+  100% {transform: translateX(0);}
+}
 
 </style>
