@@ -7,11 +7,13 @@
       placeholder="Add a new todo..."
     />
     <div v-if="todos.length">
-      <ul>
+      <!-- transition tag attribue is generate a wrapper with ul tag  -->
+      <!-- appear attribue make the transition available when first loading -->
+      <transition-group tag="ul" name="list" appear>
         <li v-for="todo in todos" :key="todo.id" @click="deleteTodo(todo.id)">
           {{ todo.text }}
         </li>
-      </ul>
+      </transition-group>
     </div>
     <div v-else>Woohoo, nothing left todo!</div>
   </div>
@@ -78,5 +80,30 @@ export default {
   }
   .todos li:hover {
     cursor: pointer;
+  }
+
+  /* list transition */
+  .list-enter-from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  .list-enter-active,
+  .list-leave-active {
+    transition: all 0.4s ease-in;
+  }
+  .list-leave-active {
+    /* The absolute make the transition off of a pop out element, remember to put position relative to parent element. */
+    /* In this case ul : relative and li : absolute */
+    position: absolute;
+  }
+
+  .list-leave-to {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  .list-move {
+    transition: all 0.3s ease;
   }
 </style>
