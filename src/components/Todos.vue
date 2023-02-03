@@ -6,7 +6,11 @@
       @keypress.enter="addTodo"
       placeholder="Add a new todo..."
     />
-    <div v-if="todos.length">
+
+    <!-- Put an transition switch for turn on off element which depend on each other. -->
+    <!-- mode out-in will make element disapear first then pop up new element later on. Two element dont work as the same time. -->
+    <transition name="switch" mode="out-in">
+      <div v-if="todos.length">
       <!-- transition tag attribue is generate a wrapper with ul tag  -->
       <!-- appear attribue make the transition available when first loading -->
       <transition-group tag="ul" name="list" appear>
@@ -16,6 +20,8 @@
       </transition-group>
     </div>
     <div v-else>Woohoo, nothing left todo!</div>
+    </transition>
+    
   </div>
 </template>
 
@@ -106,4 +112,18 @@ export default {
   .list-move {
     transition: all 0.3s ease;
   }
+
+  /* transition switch */
+  .switch-enter-from,
+  .switch-leave-to {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  .switch-enter-active {
+    transition: all 0.3 ease;
+  }
+  .switch-leave-active {
+    transition: all 0.3s ease;
+  }
+
 </style>
