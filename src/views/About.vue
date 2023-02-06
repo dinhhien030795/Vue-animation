@@ -20,14 +20,22 @@
 
 <script>
 import { ref } from 'vue';
+import gsap from 'gsap';
 export default {
   setup() {
     const showTitle = ref(true);
-    const beforeEnter = () => {
-
+    const beforeEnter = (el) => {
+      el.style.transform = 'translateY(-60px)';
+      el.style.opacity = 0.5;
     }
-    const enter = (el) => {
-      el.style.color = '#FF8E9E';
+    const enter = (el, done) => {
+      gsap.to(el, {
+        duration: 2,
+        y: 0,
+        opacity: 1,
+        ease: 'bounce.out',
+        onComplete: done
+      });
     }
     const afterEnter = (el) => {
     }
@@ -53,13 +61,5 @@ export default {
   .about {
     max-width: 600px;
     margin: 20px auto;
-  }
-  .fade-enter-from,
-  .fade-leave-to {
-    opacity: 0;
-  }
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.5s ease-in;
   }
 </style>
