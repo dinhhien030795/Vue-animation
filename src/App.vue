@@ -1,18 +1,24 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> | 
+    <router-link to="/landingPage">Landing Page</router-link> |
+    <router-link to="/about">About</router-link> |
     <router-link to="/contact">Contact</router-link>
   </div>
   <!-- Note that mode out-in is very important -->
-  <router-view v-slot="{ Component }">
+  <router-view></router-view>
+  <!-- <router-view v-slot="{ Component }">
     <transition name="route" mode="out-in">
       <component :is="Component"></component>
     </transition>
-  </router-view>
+  </router-view> -->
 </template>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
