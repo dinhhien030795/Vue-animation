@@ -1,22 +1,21 @@
-# Vue Memory Match 🎮
+# Game Assets 🎮
 
-A memory-card game built with Vue 3 + Vite, showing off Vue animations & transitions
-(`<TransitionGroup>` card dealing, 3D CSS flip, `<Transition>` win dialog).
+Free, original pixel-art game assets (8×8, SVG), released under **CC0**.
 
-Originally the files for the Net Ninja *Vue Animations & Transitions* tutorial.
+| Type | Assets |
+|------|--------|
+| sprites | heart, coin, gem, key, sword, potion, slime, star |
+| tiles | grass, brick |
 
-## Play
+- `assets/sprites/*.svg`, `assets/tiles/*.svg`: the assets
+- `assets/manifest.json`: machine-readable list (name, type, path, size)
+- `gallery.html`: open in a browser to preview everything
+
+## Add or edit an asset
+
+Assets are plain-text pixel maps in `scripts/assets.mjs` (`.` = transparent, letters = palette colours).
+Edit the maps, then regenerate (no dependencies, Node 18+):
 
 ```bash
-npm install
-npm run dev     # play locally
-npm test        # game-logic tests (vitest)
 npm run build
 ```
-
-Game logic lives in `src/composables/useMemoryGame.js` (tested); UI in `src/App.vue`.
-
-## Agent skills
-
-`.claude/skills/` contains [Matt Pocock's skills](https://github.com/mattpocock/skills)
-(engineering, productivity, misc; MIT license, see `LICENSE-mattpocock-skills`), e.g. `/tdd`, `/to-spec`, `/diagnosing-bugs`.

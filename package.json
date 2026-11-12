@@ -1,20 +1,8 @@
 {
-  "name": "vue-animation-game",
-  "private": true,
+  "name": "game-assets",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest run"
-  },
-  "dependencies": {
-    "vue": "^3.5.0"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.0",
-    "vite": "^6.0.0",
-    "vitest": "^2.1.0"
-  }
+  "description": "Free, original pixel-art game assets (CC0), generated from plain-text pixel maps.",
+  "scripts": { "build": "node scripts/build.mjs" }
 }

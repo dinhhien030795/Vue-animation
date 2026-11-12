@@ -1,0 +1,72 @@
+[
+  {
+    "name": "heart",
+    "type": "sprites",
+    "path": "assets/sprites/heart.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "coin",
+    "type": "sprites",
+    "path": "assets/sprites/coin.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "gem",
+    "type": "sprites",
+    "path": "assets/sprites/gem.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "key",
+    "type": "sprites",
+    "path": "assets/sprites/key.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "sword",
+    "type": "sprites",
+    "path": "assets/sprites/sword.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "potion",
+    "type": "sprites",
+    "path": "assets/sprites/potion.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "slime",
+    "type": "sprites",
+    "path": "assets/sprites/slime.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "star",
+    "type": "sprites",
+    "path": "assets/sprites/star.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "grass",
+    "type": "tiles",
+    "path": "assets/tiles/grass.svg",
+    "width": 8,
+    "height": 8
+  },
+  {
+    "name": "brick",
+    "type": "tiles",
+    "path": "assets/tiles/brick.svg",
+    "width": 8,
+    "height": 8
+  }
+]
