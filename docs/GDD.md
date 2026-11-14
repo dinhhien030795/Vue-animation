@@ -3,6 +3,21 @@
 Trạng thái: bản nháp chờ duyệt. Chưa viết code game cho tới khi tài liệu này được duyệt.
 Tên game: chưa chốt.
 
+## Các tài liệu chi tiết
+
+| Tài liệu | Nội dung |
+|----------|----------|
+| `scenarios/` | 30 kịch bản kiếp sống |
+| `su-kien-va-vat-pham.md` | Lá bài sự kiện, vật ban, kỷ vật |
+| `khe-uoc.md` | Khế ước đầu kiếp |
+| `quyen-nang-va-mo-khoa.md` | Chỗ thả bài, chạm, cách mở khoá |
+| `ghep-bai.md` | Luật ghép bài (bản đầy đủ) |
+| `cham-muc-dich.md` | Công thức chấm mục đích |
+| `chi-tiet-ban-choi-thu.md` | Công thức nhận sự kiện, hướng dẫn, tuyên đoán, giao diện, màn kết kiếp |
+| `danh-gia-thiet-ke.md` | Tự đánh giá, kết quả mô phỏng, rủi ro |
+
+Nếu tài liệu chi tiết khác với tài liệu này thì tài liệu chi tiết đúng hơn, vì nó được viết sau.
+
 ## 1. Tóm tắt
 
 Bạn là một vị thần dõi theo **một linh hồn** qua nhiều kiếp isekai. Mỗi kiếp, linh hồn sống một thân phận khác ở một thế giới khác và mang một **mục đích ẩn** mà cả bạn lẫn nó đều không biết. Bạn không điều khiển nhân vật. Bạn chỉ ban sự kiện, quan sát phản ứng của nó, suy ra mục đích của kiếp đó và giúp nó sống trọn vẹn.
@@ -85,8 +100,9 @@ Bạn là một vị thần dõi theo **một linh hồn** qua nhiều kiếp is
 ### Bản chơi thử (mốc đầu, ước tính 10–12 tuần với khoảng 10 giờ/tuần)
 
 - 1 thế giới fantasy, lớn dần qua 3 kích cỡ.
-- 1 kiếp trọn bốn mùa, 3 mục đích ẩn.
-- Khoảng 30 lá bài sự kiện, 4 bước ngoặt, khoảng 6 nhân vật phụ.
+- 3 kiếp, mỗi kiếp trọn bốn mùa và có một mục đích ẩn: kiếp 1, 2 và 9 trong `scenarios/`. Làm kiếp 1 hoàn chỉnh trước.
+- 15 lá bài khởi đầu và các lá mở được trong ba kiếp. Mỗi kiếp có 4 bước ngoặt và khoảng 6 nhân vật phụ.
+- Chi tiết ở `chi-tiet-ban-choi-thu.md`.
 - Nếu quá sức: cắt số lá bài trước, không cắt số mùa.
 - Mục tiêu của bản này: trả lời câu hỏi "suy luận mục đích qua bốn mùa có vui không" trước khi làm bản đầy đủ.
 
@@ -101,9 +117,9 @@ Bạn là một vị thần dõi theo **một linh hồn** qua nhiều kiếp is
 |------|--------|-----|
 | 1–2 | Dựng project Godot. Vòng chơi dạng hình khối: nhân vật có tính cách và lòng tin, lá bài, Tín ngưỡng, một mùa | Cài Godot và Blender, làm bài học Blender đầu tiên, chơi thử bản hình khối |
 | 3–4 | Đủ bốn mùa, bước ngoặt, thước đo mục đích, màn kết kiếp dạng chữ | Chơi thử nhịp 45–60 phút, góp ý. Tập làm mô hình low-poly đơn giản |
-| 5–6 | Viết trọn mục đích thứ nhất. Tuyên đoán, khế ước, kỷ vật, cánh cửa, Sổ các kiếp | Duyệt giọng văn. Bắt đầu làm mô hình nhân vật |
+| 5–6 | Viết trọn kiếp 1. Tuyên đoán, khế ước, kỷ vật, cánh cửa, Sổ các kiếp | Duyệt giọng văn. Bắt đầu làm mô hình nhân vật |
 | 7–8 | Tiểu cảnh lớn dần, ánh sáng theo mùa, dáng điệu và biểu tượng cảm xúc | Ráp cảnh trong Godot, làm mô hình đặc trưng (hầm ngục, nhà) |
-| 9–10 | Mục đích thứ hai và thứ ba. Chơi lại kiếp dang dở. Thẻ cuộc đời. Tiếng Anh | Duyệt nội dung và hình ảnh |
+| 9–10 | Kiếp 2 và kiếp 9. Chơi lại kiếp dang dở. Thẻ cuộc đời. Tiếng Anh | Duyệt nội dung và hình ảnh |
 | 11–12 | Sửa theo góp ý | Mời 5–10 người thật chơi thử, ghi lại phản ứng. Quyết định làm tiếp hay không |
 
 ## 8. Bạn cần học
@@ -136,6 +152,5 @@ Nếu game chỉ dừng ở "thần đặt sự kiện, anh hùng tự xử" th�
 - Tên game.
 - Giá bán (đã nêu khoảng 5–10$, chưa quyết).
 - Tiêu chí quyết định làm tiếp sau bản chơi thử. Đề xuất: đa số người chơi thử muốn chơi kiếp thứ hai.
-- Danh sách cụ thể 3 mục đích ẩn, 30 lá bài và các khế ước của bản chơi thử.
-- Cách thần mở lá bài mới qua các kiếp.
+- Ba kiếp của bản chơi thử: Claude đề xuất kiếp 1, 2, 9, chưa được duyệt.
 - Số kiếp và nội dung hai thế giới còn lại.

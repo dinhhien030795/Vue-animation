@@ -55,20 +55,29 @@ Mỗi phản ứng kèm một dòng suy nghĩ, lấy theo thứ tự ưu tiên:
 
 ## 2. Tín ngưỡng và nhịp chơi
 
-- Tín ngưỡng tối đa 10. Bắt đầu mỗi mùa với 6.
+- Tín ngưỡng tối đa 10. Bắt đầu mỗi mùa với 5.
+- Bỏ một lá để rút lá khác: mất một lượt, được 1 Tín ngưỡng.
 - Tay bài 4 lá. Dùng một lá thì rút một lá.
 - Mỗi lá diễn ra khoảng 60–90 giây. Một mùa chơi được khoảng 8 lá.
 - Mỗi mùa chỉ rút được các lá hợp tuổi nhân vật.
 
+Chỉ những lá nhân vật từ chối được (Thử thách, Gặp gỡ, Cơ hội) mới đem lại Tín ngưỡng và lòng tin.
+
 | Kết quả | Tín ngưỡng | Lòng tin |
 |---------|------------|----------|
-| Nhận và thành công | +2 | +5 |
-| Nhận và thất bại nhẹ | +1 | 0 |
-| Nhận vì nể rồi thất bại nặng | 0 | −15 |
+| Nhận và thành công | +1 | +2 |
+| Lao tới, bất kể kết quả | +1 thêm | +3 thêm |
+| Nhận vì nể | theo kết quả | −4 |
+| Thất bại | 0 | −5 |
+| Nhận vì nể rồi thất bại ở lá nguy hiểm | 0 | −15 |
 | Từ chối | hoàn lại một nửa giá | 0 |
-| Lao tới, bất kể kết quả | +1 thêm | +5 thêm |
+| Thần giáng một Biến cố | 0 | −3 |
+| Khoảng lặng | 0 | 0 |
 
-Từ chối không bị phạt nặng, vì từ chối là thông tin. Thứ bị phạt là ép nhân vật làm điều nó không muốn rồi để nó thất bại.
+- Đầu mỗi mùa, lòng tin trôi một phần tư quãng đường về mức 50. Lòng tin phải được nuôi lại qua từng giai đoạn của đời người.
+- Từ chối không bị phạt, vì từ chối là thông tin. Thứ bị phạt là ép nhân vật làm điều nó không muốn.
+
+Các con số trong bảng này đã được chỉnh bằng mô phỏng (`tools/balance_sim.py`, kết quả ở `danh-gia-thiet-ke.md`). Bộ số ban đầu làm lòng tin luôn chạm 100 và Tín ngưỡng không bao giờ cạn.
 
 ## 3. Sáu loại lá bài
 

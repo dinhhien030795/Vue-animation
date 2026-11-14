@@ -26,7 +26,7 @@ Thước đo chạy từ 0 đến 100, bắt đầu ở 0.
 | Không trúng | 0 | 0 | 0 | 0 |
 
 - Cặp bài ghép trúng cả hai thì nhân 1,5.
-- **Trần mỗi mùa: 12 điểm từ sự kiện.** Mục đích phải được vun đắp qua nhiều mùa, không dồn được vào một mùa.
+- **Trần mỗi mùa: 10 điểm từ sự kiện.** Mục đích phải được vun đắp qua nhiều mùa, không dồn được vào một mùa.
 - Kiểu chạm (mưa, nắng, gió) không cho điểm.
 
 ### 2.2. Bước ngoặt
@@ -34,7 +34,7 @@ Thước đo chạy từ 0 đến 100, bắt đầu ở 0.
 | Kết quả | Điểm |
 |---------|------|
 | Nhân vật chọn hướng đúng | +12 |
-| Nhân vật chọn hướng khác | −6 |
+| Nhân vật chọn hướng khác | −8 |
 
 ### 2.3. Khoảnh khắc then chốt
 
@@ -44,12 +44,12 @@ Mỗi khoảnh khắc +8, mỗi kiếp có 3. Lá Định mệnh được nhân 
 
 | Nguồn | Tối đa |
 |-------|--------|
-| Sự kiện, 4 mùa × 12 | 48 |
+| Sự kiện, 4 mùa × 10 | 40 |
 | Bước ngoặt, 4 × 12 | 48 |
 | Khoảnh khắc then chốt, 3 × 8 | 24 |
-| Tổng | 120, cắt về 100 |
+| Tổng | 112, cắt về 100 |
 
-Dư 20 điểm nghĩa là người chơi có thể lỡ một bước ngoặt, hoặc bỏ sót vài sự kiện, mà vẫn trọn vẹn.
+Ngưỡng trọn vẹn là 80. Người chơi có thể bỏ sót vài sự kiện hoặc một khoảnh khắc then chốt mà vẫn trọn vẹn, nhưng lỡ một bước ngoặt (mất 20 điểm so với đi đúng) thì gần như phải làm đủ mọi thứ còn lại.
 
 ## 3. Nhân vật quyết định bước ngoặt thế nào
 
@@ -68,10 +68,9 @@ Cuối mùa:
 | Đà lạc lối lớn hơn | Hướng của mục đích giả |
 | Bằng nhau | Lưỡng lự. Lá bài cuối cùng của mùa quyết định |
 
-Hai thứ làm lệch cán cân:
+Một thứ làm lệch cán cân:
 
 - **Khế ước**: khế ước cùng khuynh hướng với mục đích cộng 1 vào đà mục đích. Khế ước cùng khuynh hướng lạc lối cộng 1 vào đà lạc lối. Nếu nhân vật xin giải khế ước và được giải, phần cộng này mất đi.
-- **Mùa Xuân**: đà mục đích được cộng sẵn 1, vì đứa trẻ còn làm theo lòng mình.
 
 Điểm đáng chú ý: thắng nhiều ở mục đích giả không trừ điểm trực tiếp. Nó đẩy nhân vật chọn sai ở bước ngoặt, và chính bước ngoặt mới trừ điểm. Người chơi vì thế thấy hậu quả bằng một cảnh, không phải bằng một con số.
 
@@ -79,13 +78,13 @@ Hai thứ làm lệch cán cân:
 
 | Mức | Điều kiện |
 |-----|-----------|
-| Trọn vẹn | Thước đo từ 70 trở lên **và** bước ngoặt mùa Đông đi đúng hướng |
-| Dang dở | Thước đo 35–69, hoặc từ 70 trở lên nhưng lỡ bước ngoặt mùa Đông |
-| Lạc lối | Thước đo dưới 35 |
+| Trọn vẹn | Thước đo từ 80 trở lên **và** bước ngoặt mùa Đông đi đúng hướng |
+| Dang dở | Thước đo 40–79, hoặc từ 80 trở lên nhưng lỡ bước ngoặt mùa Đông |
+| Lạc lối | Thước đo dưới 40 |
 
 Bước ngoặt mùa Đông là hành động khép lại mục đích. Không có nó thì dù vun đắp cả đời cũng chỉ là dang dở.
 
-**Chọn câu "giá như"**: game tìm mùa hụt điểm nhiều nhất so với mức tối đa của mùa đó (12 điểm sự kiện + 12 điểm bước ngoặt) và hiện câu của mùa ấy. Nếu hai mùa hụt bằng nhau thì lấy mùa sớm hơn. Câu "giá như" vì thế chỉ đúng vào chỗ cần sửa nhất khi chơi lại.
+**Chọn câu "giá như"**: game tìm mùa hụt điểm nhiều nhất so với mức tối đa của mùa đó (10 điểm sự kiện + 12 điểm bước ngoặt) và hiện câu của mùa ấy. Nếu hai mùa hụt bằng nhau thì lấy mùa sớm hơn. Câu "giá như" vì thế chỉ đúng vào chỗ cần sửa nhất khi chơi lại.
 
 ## 5. Khai báo của ba kiếp
 
@@ -121,6 +120,8 @@ Khoảnh khắc then chốt: bỏ dở hầm ngục để đưa Nhạn bị thư
 | Thu | Đứng chắn trước con rồng và tìm cách giúp cả Vệ | "Giá như kiếp này, có ai đứng giữa lưỡi giáo và một thứ đang chờ chết." |
 | Đông | Leo lên trong đêm bão | "Giá như kiếp này, có ai đó ở bên khi ngọn lửa cuối cùng tắt." |
 
+Ghi đè: kiếp này có địa điểm "Sườn núi" mở từ mùa Xuân.
+
 Khoảnh khắc then chốt: nghe ông ngoại nói thật về vụ cháy · tha cho con thú trong một chuyến săn · mang sữa dê lên núi lần đầu.
 
 ### Kiếp 9: Bữa cơm với cha
@@ -138,6 +139,8 @@ Khoảnh khắc then chốt: nghe ông ngoại nói thật về vụ cháy · th
 | Thu | Ở lại ăn hết bát canh mặn khi tù và gọi | "Giá như kiếp này, có một bữa cơm mà không ai phải đứng dậy." |
 | Đông | Học nấu món canh ấy | "Giá như kiếp này, vị canh ấy còn được nấu thêm một lần." |
 
+Ghi đè: lá Người bạn cũ ghé thăm (cha về) rút được từ mùa Xuân.
+
 Khoảnh khắc then chốt: Con nấu cho cha lần đầu · cha kể một chuyện không phải chiến tích · hai cha con ăn hết một bữa trong lúc ngoài trời có bão.
 
 ## 6. Ví dụ tính một mùa
@@ -154,16 +157,16 @@ Kiếp 1, mùa Hạ, khế ước Đôi Tay (cùng khuynh hướng mục đích,
 | Việc nặng nhọc | Lò rèn | Lao tới | +4 | 3 | 2 |
 | Người bạn cũ ghé thăm | Lò rèn | Lao tới, sửa dao cho Nhạn (then chốt) | +4, +8 | 4 | 2 |
 
-- Điểm sự kiện: 13, cắt về trần 12. Khoảnh khắc then chốt: +8.
+- Điểm sự kiện: 13, cắt về trần 10. Khoảnh khắc then chốt: +8.
 - Bước ngoặt: đà mục đích 4 lớn hơn đà lạc lối 2, nên Tần ở lại học nghề. +12.
-- Mùa Hạ đem về 32 điểm.
+- Mùa Hạ đem về 30 điểm.
 
-Nếu người chơi tin vào mục đích giả và thả thêm hai lá hầm ngục thay cho hai lá ở lò rèn: đà lạc lối là 4, đà mục đích là 2, Tần đi theo đội thám hiểm. Mùa đó chỉ còn 5 điểm sự kiện, vẫn giữ 8 điểm then chốt, và bị trừ 6 ở bước ngoặt: tổng 7 điểm thay vì 32.
+Nếu người chơi tin vào mục đích giả và thả thêm hai lá hầm ngục thay cho hai lá ở lò rèn: đà lạc lối là 4, đà mục đích là 2, Tần đi theo đội thám hiểm. Mùa đó chỉ còn 5 điểm sự kiện, vẫn giữ 8 điểm then chốt, và bị trừ 8 ở bước ngoặt: tổng 5 điểm thay vì 30.
 
 ## 7. Những điểm do Claude tự quyết, cần bạn duyệt
 
-- Toàn bộ thang điểm: +4, +2, +1, trần 12 mỗi mùa, ±12 và −6 ở bước ngoặt, +8 cho khoảnh khắc then chốt.
-- Ngưỡng 70 và 35, và điều kiện bắt buộc về bước ngoặt mùa Đông.
+- Toàn bộ thang điểm: +4, +2, +1, trần 10 mỗi mùa, +12 và −8 ở bước ngoặt, +8 cho khoảnh khắc then chốt.
+- Ngưỡng 80 và 40, và điều kiện bắt buộc về bước ngoặt mùa Đông. Các con số này đã chỉnh bằng mô phỏng, xem `danh-gia-thiet-ke.md`.
 - Cách nhân vật quyết định bước ngoặt bằng hai con số đà.
 - Mục đích giả không trừ điểm trực tiếp mà đẩy nhân vật chọn sai ở bước ngoặt.
 - Mỗi kiếp cần bốn câu "giá như" thay vì một. Mình đã viết cho ba kiếp ví dụ. 27 kiếp còn lại trong `scenarios/` mới có một câu.

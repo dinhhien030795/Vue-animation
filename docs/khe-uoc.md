@@ -77,7 +77,7 @@ Với Sợi Chỉ, bạn không chọn người được buộc. Nhân vật t�
 
 | Khế ước | Lời hứa của thần | Khi đón nhận | Cái giá |
 |---------|------------------|--------------|---------|
-| Mùa Màng | Mỗi mùa bắt đầu với 8 Tín ngưỡng thay vì 6. Biến cố nhẹ hơn | Thêm: Việc nặng nhọc hồi 1 sức lực | Thử thách giúp nhân vật lớn lên ít hơn |
+| Mùa Màng | Mỗi mùa bắt đầu với 7 Tín ngưỡng thay vì 5. Biến cố nhẹ hơn | Thêm: Việc nặng nhọc hồi 1 sức lực | Thử thách giúp nhân vật lớn lên ít hơn |
 | Lặng Im | Lòng tin không bao giờ xuống dưới 30. Khoảng lặng cho nhân vật làm hai việc thay vì một | Thêm: Đêm mất ngủ không trừ tâm trạng | Thần không dùng được Giấc mơ và Món quà của thần |
 
 ## 4. Xin giải khế ước
