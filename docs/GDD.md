@@ -7,7 +7,8 @@ Tên game: chưa chốt.
 
 | Tài liệu | Nội dung |
 |----------|----------|
-| `scenarios/` | 30 kịch bản kiếp sống |
+| `scenarios/` | 38 kịch bản kiếp sống. Bản đang sửa nằm ở bản đồ các kiếp; `scenarios.json` là bản xuất lúc tạo bản đồ |
+| `ke-hoach.md` | Kế hoạch 12 tuần, kế hoạch học, mốc quyết định |
 | `su-kien-va-vat-pham.md` | Lá bài sự kiện, vật ban, kỷ vật |
 | `khe-uoc.md` | Khế ước đầu kiếp |
 | `quyen-nang-va-mo-khoa.md` | Chỗ thả bài, chạm, cách mở khoá |
@@ -102,7 +103,7 @@ Bạn là một vị thần dõi theo **một linh hồn** qua nhiều kiếp is
 ### Bản chơi thử (mốc đầu, ước tính 10–12 tuần với khoảng 10 giờ/tuần)
 
 - 1 thế giới fantasy, lớn dần qua 3 kích cỡ.
-- 3 kiếp, mỗi kiếp trọn bốn mùa và có một mục đích ẩn: kiếp 1, 2 và 9 trong `scenarios/`. Làm kiếp 1 hoàn chỉnh trước.
+- 3 kiếp, mỗi kiếp trọn bốn mùa và có một mục đích ẩn: kiếp 1, 2 và 31. Làm kiếp 1 hoàn chỉnh trước.
 - 15 lá bài khởi đầu và các lá mở được trong ba kiếp. Mỗi kiếp có 4 bước ngoặt và khoảng 6 nhân vật phụ.
 - Chi tiết ở `chi-tiet-ban-choi-thu.md`.
 - Nếu quá sức: cắt số lá bài trước, không cắt số mùa.
@@ -111,7 +112,7 @@ Bạn là một vị thần dõi theo **một linh hồn** qua nhiều kiếp is
 ### Bản đầy đủ (ước tính thêm 6–9 tháng, chưa chốt)
 
 - 3 thế giới: fantasy, thế giới thường, thế giới phép thuật.
-- Số kiếp: chưa chốt. Ước lượng của Claude là khoảng 10–15 kiếp viết kỹ.
+- 38 kiếp: 30 kiếp gốc, 6 kiếp đi ngược khuôn, 2 kiếp thẳng. Kiếp 32–38 mới có ý tưởng.
 
 ## 7. Lộ trình bản chơi thử (đề xuất)
 
@@ -121,7 +122,7 @@ Bạn là một vị thần dõi theo **một linh hồn** qua nhiều kiếp is
 | 3–4 | Đủ bốn mùa, bước ngoặt, thước đo mục đích, màn kết kiếp dạng chữ | Chơi thử nhịp 45–60 phút, góp ý. Tập làm mô hình low-poly đơn giản |
 | 5–6 | Viết trọn kiếp 1. Tuyên đoán, khế ước, kỷ vật, cánh cửa, Sổ các kiếp | Duyệt giọng văn. Bắt đầu làm mô hình nhân vật |
 | 7–8 | Tiểu cảnh lớn dần, ánh sáng theo mùa, dáng điệu và biểu tượng cảm xúc | Ráp cảnh trong Godot, làm mô hình đặc trưng (hầm ngục, nhà) |
-| 9–10 | Kiếp 2 và kiếp 9. Chơi lại kiếp dang dở. Thẻ cuộc đời. Tiếng Anh | Duyệt nội dung và hình ảnh |
+| 9–10 | Kiếp 2 và kiếp 31. Chơi lại kiếp dang dở. Thẻ cuộc đời. Tiếng Anh | Duyệt nội dung và hình ảnh |
 | 11–12 | Sửa theo góp ý | Mời 5–10 người thật chơi thử, ghi lại phản ứng. Quyết định làm tiếp hay không |
 
 ## 8. Bạn cần học
@@ -154,5 +155,4 @@ Nếu game chỉ dừng ở "thần đặt sự kiện, anh hùng tự xử" th�
 - Tên game.
 - Giá bán (đã nêu khoảng 5–10$, chưa quyết).
 - Tiêu chí quyết định làm tiếp sau bản chơi thử. Đề xuất: đa số người chơi thử muốn chơi kiếp thứ hai.
-- Ba kiếp của bản chơi thử: Claude đề xuất kiếp 1, 2, 9, chưa được duyệt.
 - Số kiếp và nội dung hai thế giới còn lại.
