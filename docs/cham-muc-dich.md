@@ -158,7 +158,7 @@ Kiếp 1, mùa Hạ, khế ước Đôi Tay (cùng khuynh hướng mục đích,
 - Bước ngoặt: đà mục đích 4 lớn hơn đà lạc lối 2, nên Tần ở lại học nghề. +12.
 - Mùa Hạ đem về 32 điểm.
 
-Nếu người chơi tin vào mục đích giả và thả thêm hai lá hầm ngục thay cho hai lá ở lò rèn: đà lạc lối là 4, đà mục đích là 2, Tần đi theo đội thám hiểm. Mùa đó chỉ còn khoảng 4 điểm sự kiện và bị trừ 6.
+Nếu người chơi tin vào mục đích giả và thả thêm hai lá hầm ngục thay cho hai lá ở lò rèn: đà lạc lối là 4, đà mục đích là 2, Tần đi theo đội thám hiểm. Mùa đó chỉ còn 5 điểm sự kiện, vẫn giữ 8 điểm then chốt, và bị trừ 6 ở bước ngoặt: tổng 7 điểm thay vì 32.
 
 ## 7. Những điểm do Claude tự quyết, cần bạn duyệt
 
