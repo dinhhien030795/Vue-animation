@@ -1,0 +1,330 @@
+<title>Vòng chơi cốt lõi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Bố cục: sơ đồ workflow một lượt chơi bên trái, ngăn giải thích bên phải; dưới cùng là thanh mô tả bước đang chạy. */
+:root{
+  --bg:#eef1f6; --surface:#ffffff; --sunk:#e4e9f1; --fg:#1b2333; --muted:#5b6679; --line:#c9d1de;
+  --main:#2e8b57; --main-soft:#dff1e6; --err:#c0392b; --err-soft:#f8e1de; --async:#b8860b; --async-soft:#f8efcf;
+  --accent:#2f5fd0;
+  --ui:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12161f; --surface:#1b212d; --sunk:#151a24; --fg:#e6eaf2; --muted:#98a3b8; --line:#34405a;
+  --main:#5cc08a; --main-soft:#1d3a2b; --err:#f0877b; --err-soft:#43201c; --async:#e6bf4a; --async-soft:#3d3412;
+  --accent:#7ea2ff; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#12161f; --surface:#1b212d; --sunk:#151a24; --fg:#e6eaf2; --muted:#98a3b8; --line:#34405a;
+  --main:#5cc08a; --main-soft:#1d3a2b; --err:#f0877b; --err-soft:#43201c; --async:#e6bf4a; --async-soft:#3d3412;
+  --accent:#7ea2ff; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--ui);font-size:14px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
+h1{font-size:24px;margin:0;font-weight:700}
+.intro{margin:0;max-width:78ch;color:var(--muted)}
+.intro b{color:var(--fg);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bar .lbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-right:4px}
+.pbtn{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:6px;padding:7px 12px;font:inherit;font-weight:500;cursor:pointer}
+.pbtn:hover{border-color:var(--accent)}
+.pbtn[aria-pressed="true"]{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.pbtn.ghost{color:var(--muted)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:18px;height:0;border-top:3px solid;vertical-align:middle;margin-right:6px}
+.legend i.dash{border-top-style:dashed}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px;align-items:start}
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow-x:auto}
+svg{display:block;min-width:820px;width:100%;height:auto;touch-action:manipulation}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.panel h2{margin:0;font-size:16px}
+.panel .tag{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.panel p{margin:0}
+.panel .ref{font-family:var(--mono);font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.panel pre{margin:0;background:var(--sunk);border-radius:6px;padding:10px 12px;font-family:var(--mono);font-size:12px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.hint{color:var(--muted)}
+.cap{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--main);border-radius:6px;padding:10px 14px;min-height:62px}
+.cap .n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+.cap ol{margin:6px 0 0;padding-left:20px;display:grid;gap:4px}
+.tip{position:absolute;z-index:5;max-width:280px;background:var(--fg);color:var(--bg);border-radius:6px;padding:8px 10px;font-size:12.5px;line-height:1.45;pointer-events:none}
+.tip .r{font-family:var(--mono);font-size:11.5px;opacity:.8;display:block;margin-top:4px}
+
+/* sơ đồ */
+.node rect,.node polygon{fill:var(--main-soft);stroke:var(--main);stroke-width:1.6;transition:opacity .15s}
+.node.err rect,.node.err polygon{fill:var(--err-soft);stroke:var(--err)}
+.node.async rect{fill:var(--async-soft);stroke:var(--async)}
+.node.hidden rect{stroke-dasharray:5 3}
+.node text{fill:var(--fg);font-family:var(--ui);pointer-events:none}
+.node .t{font-size:13px;font-weight:600}
+.node .s{font-size:10.5px;fill:var(--muted)}
+.node{cursor:pointer}
+.node.pin rect,.node.pin polygon{stroke-width:3}
+.edge .line{fill:none;stroke:var(--main);stroke-width:2;transition:opacity .15s}
+.edge.err .line{stroke:var(--err)}
+.edge.async .line{stroke:var(--async)}
+.edge.loop .line{stroke-dasharray:3 5}
+.edge .hit{fill:none;stroke:transparent;stroke-width:18;cursor:help}
+.edge .lbl{font-size:10.5px;fill:var(--muted);font-family:var(--ui);paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+.edge .num{fill:var(--accent);opacity:0}
+.edge .numt{font-size:10px;font-weight:700;fill:var(--surface);text-anchor:middle;opacity:0;font-family:var(--ui)}
+svg.focus .node,svg.focus .edge{opacity:.2}
+svg.focus .node.hi,svg.focus .edge.hi{opacity:1}
+svg.focus .edge.hi .line{stroke-width:3;stroke-dasharray:7 6;animation:flow .7s linear infinite}
+svg.focus .edge.hi.now .line{stroke-width:3.6}
+svg.focus .edge.hi.done .line{animation:none;stroke-dasharray:none}
+svg.focus .edge.hi.has-n .num,svg.focus .edge.hi.has-n .numt{opacity:1}
+@keyframes flow{to{stroke-dashoffset:-13}}
+@media (prefers-reduced-motion: reduce){
+  svg.focus .edge.hi .line{animation:none;stroke-dasharray:none;stroke-width:3.4}
+}
+</style>
+
+<div class="wrap">
+  <h1>Vòng chơi cốt lõi</h1>
+  <p class="intro"><b>Sơ đồ này trả lời:</b> một lượt chơi đi từ lúc thần thả lá bài tới kết quả của cả kiếp như thế nào. Mình chọn kiểu workflow vì vòng lặp xoay quanh các nhánh quyết định của nhân vật. Game chưa có code, nên mỗi ô và mũi tên trỏ tới tài liệu thiết kế trong <span style="font-family:var(--mono)">docs/</span>, không phải file:line. <b>Điều dễ bất ngờ:</b> nhận vì nể rồi thắng vẫn làm lòng tin giảm và đà lạc lối tăng, trong khi điểm mục đích không đổi, và chính đà đó mới quyết định bước ngoặt.</p>
+
+  <div class="bar" id="paths" role="group" aria-label="Chạy thử một đường đi"><span class="lbl">Chạy thử</span></div>
+  <div class="legend">
+    <span><i style="border-color:var(--main)"></i>Đường chính</span>
+    <span><i style="border-color:var(--err)"></i>Nhánh từ chối</span>
+    <span><i style="border-color:var(--async)"></i>Ngoài ý thần</span>
+    <span><i class="dash" style="border-color:var(--main)"></i>Vòng lặp</span>
+    <span>Ô viền đứt: người chơi không bao giờ thấy</span>
+  </div>
+
+  <div class="main">
+    <div class="stage" id="stage">
+      <svg id="svg" viewBox="0 0 1100 470" role="img" aria-label="Sơ đồ một lượt chơi">
+        <defs>
+          <marker id="ah-main" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--main)"/></marker>
+          <marker id="ah-err" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--err)"/></marker>
+          <marker id="ah-async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--async)"/></marker>
+        </defs>
+        <g id="edges"></g>
+        <g id="nodes"></g>
+      </svg>
+      <div class="tip" id="tip" hidden></div>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+
+  <div class="cap" id="cap" aria-live="polite"><span class="hint">Chọn một đường đi ở trên để xem một lá bài chạy hết vòng. Mỗi đường dùng một ví dụ riêng của kiếp 1 (Tần, thợ rèn).</span></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var SVGNS="http://www.w3.org/2000/svg";
+
+  // Mỗi ô là một bước có thật trong tài liệu thiết kế. ref: tài liệu và mục chứa luật đó.
+  var NODES={
+    A:{x:20,y:48,w:140,h:64,t:"Thả lá bài",s:"Tay bài, Tín ngưỡng",
+       what:"Thần chọn một trong 4 lá trong tay rồi kéo lên tiểu cảnh. Mỗi lá có giá 0–4 Tín ngưỡng. Một mùa có 8 lượt.",
+       ref:"su-kien-va-vat-pham.md §2",
+       code:"Tín ngưỡng tối đa 10, đầu mùa 5\nMột mùa 8 lượt\nHết Tín ngưỡng: bỏ một lá,\n  mất một lượt, được +1"},
+    B:{x:220,y:48,w:140,h:64,t:"Chỗ thả bài",s:"địa điểm, người gần",
+       what:"Lá bài đọc địa điểm gần nhất, người đứng gần và khoảng cách tới nhân vật chính. Cùng một lá, thả chỗ khác thì thành chuyện khác.",
+       ref:"quyen-nang-va-mo-khoa.md §3",
+       code:"Cơn bão thả ở Lò rèn\n  → lửa lò sắp tắt, nhân vật có chạy về giữ lò không\nCơn bão thả giữa hai nhà\n  → nhân vật chạy về phía nào"},
+    C:{x:420,y:48,w:140,h:64,t:"Tính điểm nhận",s:"ý muốn + lòng tin",
+       what:"Game tính nhân vật muốn sự kiện này tới đâu, cộng thêm phần lòng tin vào thần. Chỉ áp dụng cho lá nhân vật từ chối được.",
+       ref:"chi-tiet-ban-choi-thu.md §2",
+       code:"ý muốn riêng = (khuynh hướng cao nhất của lá − 1)\n  + tâm trạng × 0,5\n  − max(0, nguy hiểm − sức lực)\n  + 1,5 nếu lá trúng mục đích và thả đúng chỗ\n  + ngẫu nhiên −0,75…+0,75\n\nđiểm nhận = ý muốn riêng + (lòng tin − 50) / 25"},
+    D:{kind:"diamond",cx:700,cy:80,t:"Phản ứng",s:"",
+       what:"Nhân vật chọn một trong bốn kiểu phản ứng. Dáng điệu và dòng suy nghĩ của từng kiểu là manh mối để người chơi suy luận.",
+       ref:"chi-tiet-ban-choi-thu.md §2",
+       code:"điểm ≥ 1 và (khuynh hướng = 3 hoặc trúng mục đích) → Lao tới\nđiểm ≥ 0, ý muốn ≥ 0 → Nhận thường\nđiểm ≥ 0, ý muốn < 0 → Nhận vì nể\n−0,5 ≤ điểm < 0 → Lưỡng lự: 50% nhận, 50% từ chối\nđiểm < −0,5 → Từ chối"},
+    E:{x:860,y:48,w:140,h:64,t:"Sự kiện diễn ra",s:"thắng hay thua",
+       what:"Sự kiện chạy trong 40–60 giây. Chỉ Thử thách có thắng hoặc thua. Gặp gỡ và Cơ hội diễn ra không có rủi ro.",
+       ref:"chi-tiet-ban-choi-thu.md §2, §3",
+       code:"xác suất thắng Thử thách = 80%\n  + 10% nếu lao tới\n  − 25% cho mỗi bậc nguy hiểm vượt sức lực"},
+    F:{x:860,y:218,w:140,h:64,t:"Cập nhật chỉ số",s:"Tín ngưỡng, lòng tin",
+       what:"Kết quả đổi Tín ngưỡng và lòng tin. Nhận vì nể làm lòng tin giảm dù thắng. Từ chối chỉ hoàn nửa giá. Đầu mỗi mùa lòng tin trôi 1/4 quãng về mức 50.",
+       ref:"su-kien-va-vat-pham.md §2",
+       code:"nhận và thành công   Tín ngưỡng +1, lòng tin +2\nlao tới              thêm +1 và +3\nnhận vì nể           lòng tin −4\nthất bại             lòng tin −5\ntừ chối              hoàn ½ giá, lòng tin giữ nguyên\nBiến cố, Khoảng lặng không đổi gì"},
+    G:{x:420,y:218,w:140,h:64,t:"Chấm mục đích",s:"điểm ẩn, hai đà",hidden:true,
+       what:"Game chấm điểm thước đo mục đích và đếm hai con số đà. Người chơi không bao giờ thấy chúng. Nhận vì nể không cho điểm.",
+       ref:"cham-muc-dich.md §2, §3",
+       code:"trúng cả khuynh hướng lẫn đối tượng:\n  lao tới +4 · nhận thường +2 · nhận vì nể 0\nchỉ trúng một: lao tới +1\ntrần 10 điểm sự kiện mỗi mùa\n\nđà mục đích +1: lao tới/nhận thường lá trúng mục đích\nđà lạc lối +1: thành công ở lá mục đích giả,\n  kể cả khi nhận vì nể"},
+    H:{x:420,y:388,w:140,h:64,t:"Bước ngoặt",s:"cuối mỗi mùa",hidden:true,
+       what:"Cuối mùa, nhân vật tự quyết một việc lớn của đời mình. Thần không chọn thay được. Nhân vật theo bên có đà lớn hơn.",
+       ref:"cham-muc-dich.md §3",
+       code:"đà mục đích > đà lạc lối → hướng đúng, +12\nđà lạc lối lớn hơn → hướng mục đích giả, −8\nbằng nhau → lá cuối mùa quyết định"},
+    I:{x:690,y:388,w:140,h:64,t:"Kết kiếp",s:"Trọn vẹn hay chưa",
+       what:"Sau bốn mùa, thước đo và bước ngoặt mùa Đông quyết định mức của cả kiếp. Chưa trọn vẹn thì hiện câu \"giá như\", không tiết lộ mục đích.",
+       ref:"cham-muc-dich.md §4",
+       code:"Trọn vẹn: thước đo ≥ 85 và bước ngoặt Đông đúng\nDang dở: 45–84, hoặc ≥ 85 nhưng lỡ bước ngoặt Đông\nLạc lối: < 45"},
+    J:{x:80,y:388,w:140,h:64,t:"Khúc quanh",s:"ngoài ý thần",kind:"async",
+       what:"Một biến cố lớn viết tay cho từng kiếp. Thế giới gây ra, thần không chặn được. Nó đổi cách tính điểm từ lúc xảy ra, không xoá điểm đã có.",
+       ref:"khuc-quanh.md §3",
+       code:"luôn có ít nhất hai điềm báo trước\nkhông xoá điểm đã có\nđổi cách tính từ lúc đó\nví dụ kiếp 1: Nhạn về sớm, mất tay thuận"}
+  };
+
+  // Mỗi mũi tên: gọi gì, truyền dữ liệu gì, nằm ở đâu trong tài liệu.
+  var EDGES=[
+    {id:"e1",f:"A",t:"B",d:"M160,80 H220",lab:[190,66],mid:[190,80],label:"thả lá",data:"lá bài + chỗ thả; trừ giá Tín ngưỡng (0–4)",ref:"quyen-nang-va-mo-khoa.md §3"},
+    {id:"e2",f:"B",t:"C",d:"M360,80 H420",lab:[390,66],mid:[390,80],label:"nhãn nơi",data:"khuynh hướng của lá cộng nhãn của địa điểm; người đứng gần",ref:"quyen-nang-va-mo-khoa.md §3.2"},
+    {id:"e3",f:"C",t:"D",d:"M560,80 H620",lab:[590,66],mid:[590,80],label:"điểm nhận",data:"điểm nhận = ý muốn riêng + (lòng tin − 50) / 25",ref:"chi-tiet-ban-choi-thu.md §2"},
+    {id:"e4",f:"D",t:"E",d:"M780,80 H860",lab:[820,66],mid:[820,80],label:"nhận",data:"lao tới, nhận thường hoặc nhận vì nể; lưỡng lự thì tung 50/50",ref:"chi-tiet-ban-choi-thu.md §2"},
+    {id:"e5",f:"D",t:"F",c:"err",d:"M700,130 V180 H900 V218",lab:[800,170],mid:[800,180],label:"từ chối",data:"không có sự kiện; hoàn nửa giá; nhân vật quay lưng ngồi xuống",ref:"su-kien-va-vat-pham.md §2"},
+    {id:"e6",f:"E",t:"F",d:"M950,112 V218",lab:[962,168],mid:[950,165],label:"thắng/thua",data:"kết quả sự kiện: Tín ngưỡng +1, lòng tin +2 nếu thắng; −5 nếu thua",ref:"su-kien-va-vat-pham.md §2"},
+    {id:"e7",f:"F",t:"G",d:"M860,250 H560",lab:[710,236],mid:[710,250],label:"phản ứng",data:"kiểu phản ứng + lá có trúng mục đích không",ref:"cham-muc-dich.md §2.1"},
+    {id:"e8",f:"G",t:"A",c:"loop",d:"M490,218 V170 H90 V112",lab:[290,160],mid:[290,170],label:"lượt kế",data:"quay lại rút lá kế tiếp; tối đa 8 lượt mỗi mùa",ref:"chi-tiet-ban-choi-thu.md §3"},
+    {id:"e9",f:"G",t:"H",d:"M490,282 V388",lab:[502,335],mid:[490,335],label:"hết 8 lượt",data:"đà mục đích và đà lạc lối của mùa",ref:"cham-muc-dich.md §3"},
+    {id:"e10",f:"J",t:"G",c:"async",d:"M150,388 V250 H420",lab:[160,320],mid:[150,320],label:"đổi cách tính",data:"khúc quanh đổi điều kiện trúng mục đích từ lúc đó",ref:"khuc-quanh.md §3, luật 4"},
+    {id:"e11",f:"H",t:"I",d:"M560,420 H690",lab:[625,406],mid:[625,420],label:"4 bước ngoặt",data:"kết quả bước ngoặt cộng vào thước đo; bước ngoặt Đông quyết định mức",ref:"cham-muc-dich.md §4"}
+  ];
+
+  // Mỗi đường đi dùng một ví dụ riêng của kiếp 1, số tính đúng theo công thức trong tài liệu.
+  var PATHS=[
+    {id:"p-ne",name:"Nhận vì nể",steps:[
+      ["e1","Tần, mùa Hạ, lòng tin 60, Tín ngưỡng 5. Thần thả Hầm ngục nông (giá 2) lên Núi. Tín ngưỡng 5 → 3."],
+      ["e2","Núi gắn nhãn Chinh phục, Khám phá. Lá không trúng mục đích của Tần (Tạo tác)."],
+      ["e3","Ý muốn riêng = (1−1) + 0 − 0 + (−0,4 ngẫu nhiên) = −0,4. Điểm nhận = −0,4 + (60−50)/25 = 0,0."],
+      ["e4","Điểm ≥ 0 nhưng ý muốn < 0: nhận vì nể. Tần đi chậm, ngoái lại."],
+      ["e6","Xác suất thắng 80%, Tần thắng. Lòng tin −4 (nhận vì nể): 60 → 56. Tín ngưỡng +1: 3 → 4."],
+      ["e7","Lá không trúng mục đích: 0 điểm. Nhưng Tần vừa thắng ở khuynh hướng Chinh phục (mục đích giả): đà lạc lối +1."]]},
+    {id:"p-lao",name:"Lao tới",steps:[
+      ["e1","Tần, mùa Hạ, lòng tin 56, Tín ngưỡng 4. Thần thả Người thợ già (giá 1) lên Lò rèn. Tín ngưỡng 4 → 3."],
+      ["e2","Lò rèn gắn nhãn Tạo tác. Lá trúng cả khuynh hướng lẫn đối tượng mục đích của kiếp 1."],
+      ["e3","Ý muốn riêng = (3−1) + 1,5 (trúng mục đích, thả đúng chỗ) + 0,2 = 3,7. Điểm nhận = 3,7 + (56−50)/25 ≈ 3,94."],
+      ["e4","Điểm ≥ 1 và khuynh hướng Tạo tác của Tần = 3: lao tới. Tần chạy tới lò rèn, không cần nài."],
+      ["e6","Gặp gỡ, không có rủi ro. Tín ngưỡng +1 và +1 (lao tới): 3 → 5. Lòng tin +2 và +3: 56 → 61."],
+      ["e7","Trúng cả hai, lao tới: +4 điểm mục đích (trần 10 mỗi mùa). Đà mục đích +1."]]},
+    {id:"p-tc",name:"Từ chối",steps:[
+      ["e1","Tần, mùa Hạ, lòng tin 61, Tín ngưỡng 5. Thần thả Kho báu lộ thiên (giá 2). Tín ngưỡng 5 → 3."],
+      ["e2","Nhãn Khám phá. Điểm Khám phá của Tần là 0."],
+      ["e3","Ý muốn riêng = (0−1) + 0 − 0 − 0,3 = −1,3. Điểm nhận = −1,3 + (61−50)/25 ≈ −0,86."],
+      ["e5","Điểm < −0,5: từ chối. Tần quay lưng ngồi xuống. Hoàn nửa giá: Tín ngưỡng 3 → 4. Lòng tin giữ 61."],
+      ["e7","Từ chối không cho điểm mục đích và không tăng đà nào. Nhưng thần biết thêm một điều: Tần không muốn đi xa."]]},
+    {id:"p-kiep",name:"Hết mùa tới hết kiếp",steps:[
+      ["e10","Ví dụ mùa Thu của kiếp 1: khúc quanh, Nhạn về sớm và mất tay thuận. Việc tạo tác chỉ trúng khi Nhạn có mặt ở lò rèn."],
+      ["e9","Hết 8 lượt của mùa. Ví dụ: đà mục đích 3, đà lạc lối 2."],
+      ["e11","Đà mục đích lớn hơn: Tần chọn hướng đúng, +12. Sau bốn mùa, thước đo ≥ 85 và bước ngoặt Đông đúng thì kiếp Trọn vẹn."]]}
+  ];
+
+  var $=function(i){return document.getElementById(i)};
+  var svg=$("svg"), gE=$("edges"), gN=$("nodes"), tip=$("tip"), panel=$("panel"), cap=$("cap"), bar=$("paths"), stage=$("stage");
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hover=null, pin=null, play=null, timer=null, lastPtr="mouse", nodeEls={}, edgeEls={};
+
+  function el(n,a,p){var e=document.createElementNS(SVGNS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+  function byId(id){for(var i=0;i<EDGES.length;i++)if(EDGES[i].id===id)return EDGES[i]}
+
+  // vẽ mũi tên
+  EDGES.forEach(function(e){
+    var g=el("g",{"class":"edge "+(e.c||""),"data-id":e.id},gE);
+    var mk=e.c==="err"?"err":e.c==="async"?"async":"main";
+    el("path",{"class":"line",d:e.d,"marker-end":"url(#ah-"+mk+")"},g);
+    el("path",{"class":"hit",d:e.d},g);
+    var t=el("text",{"class":"lbl",x:e.lab[0],y:e.lab[1],"text-anchor":e.lab[0]>=500&&(e.id==="e9"||e.id==="e6")||e.id==="e10"?"start":"middle"},g);t.textContent=e.label;
+    el("circle",{"class":"num",cx:e.mid[0],cy:e.mid[1],r:9},g);
+    var nt=el("text",{"class":"numt",x:e.mid[0],y:e.mid[1]+3.5},g);
+    edgeEls[e.id]={g:g,num:nt};
+    g.addEventListener("pointerenter",function(ev){if(ev.pointerType==="mouse")showTip(e,ev)});
+    g.addEventListener("pointermove",function(ev){if(ev.pointerType==="mouse")moveTip(ev)});
+    g.addEventListener("pointerleave",hideTip);
+    g.addEventListener("click",function(ev){ev.stopPropagation();showTip(e,ev)});
+  });
+  // vẽ ô
+  Object.keys(NODES).forEach(function(id){
+    var n=NODES[id], g=el("g",{"class":"node"+(n.hidden?" hidden":"")+(n.kind==="async"?" async":""),"data-id":id,tabindex:0,role:"button","aria-label":n.t},gN), cx, cy;
+    if(n.kind==="diamond"){
+      cx=n.cx;cy=n.cy;
+      el("polygon",{points:(cx-80)+","+cy+" "+cx+","+(cy-50)+" "+(cx+80)+","+cy+" "+cx+","+(cy+50)},g);
+    }else{
+      cx=n.x+n.w/2;cy=n.y+n.h/2;
+      el("rect",{x:n.x,y:n.y,width:n.w,height:n.h,rx:8},g);
+    }
+    var t=el("text",{"class":"t",x:cx,y:n.s?cy-3:cy+4.5,"text-anchor":"middle"},g);t.textContent=n.t;
+    if(n.s){var s=el("text",{"class":"s",x:cx,y:cy+14,"text-anchor":"middle"},g);s.textContent=n.s}
+    nodeEls[id]=g;
+    g.addEventListener("pointerenter",function(ev){if(ev.pointerType==="mouse"&&!play){hover=id;paint()}});
+    g.addEventListener("pointerleave",function(ev){if(ev.pointerType==="mouse"&&hover===id){hover=null;paint()}});
+    g.addEventListener("click",function(ev){
+      ev.stopPropagation(); if(play) stopPlay();
+      if(lastPtr==="touch"&&hover!==id){hover=id;paint();return}          // chạm lần 1: giống hover
+      pin=(pin===id)?null:id; hover=id; paint();                          // chạm lần 2 hoặc bấm chuột: ghim
+    });
+    g.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();if(play)stopPlay();pin=(pin===id)?null:id;hover=id;paint()}});
+  });
+  svg.addEventListener("pointerdown",function(ev){lastPtr=ev.pointerType||"mouse"});
+  svg.addEventListener("click",function(){hideTip();if(!play){pin=null;hover=null;paint()}});
+
+  // tooltip của mũi tên
+  function showTip(e,ev){
+    tip.innerHTML="";var b=document.createElement("b");b.textContent=e.label+": "+NODES[e.f].t+" → "+NODES[e.t].t;tip.appendChild(b);
+    var d=document.createElement("div");d.textContent=e.data;tip.appendChild(d);
+    var r=document.createElement("span");r.className="r";r.textContent=e.ref;tip.appendChild(r);
+    tip.hidden=false;moveTip(ev);
+  }
+  function moveTip(ev){
+    var r=stage.getBoundingClientRect(), x=ev.clientX-r.left+stage.scrollLeft+12, y=ev.clientY-r.top+12;
+    tip.style.left=Math.min(x,stage.scrollWidth-290)+"px";tip.style.top=y+"px";
+  }
+  function hideTip(){tip.hidden=true}
+
+  // tô sáng theo trạng thái: đường đang chạy > hover > ghim
+  function paint(){
+    var hiN={},hiE={},numbers={},nowE=null,doneE={};
+    if(play){
+      for(var i=0;i<=play.i;i++){var id=play.p.steps[i][0];hiE[id]=1;numbers[id]=i+1;if(i<play.i)doneE[id]=1;else nowE=id}
+      if(reduce){for(var j=0;j<play.p.steps.length;j++){var q=play.p.steps[j][0];hiE[q]=1;numbers[q]=j+1;doneE[q]=1}nowE=null}
+      Object.keys(hiE).forEach(function(k){var e=byId(k);hiN[e.f]=1;hiN[e.t]=1});
+    }else{
+      var f=hover||pin;
+      if(f){hiN[f]=1;EDGES.forEach(function(e){if(e.f===f||e.t===f){hiE[e.id]=1;hiN[e.f]=1;hiN[e.t]=1}})}
+    }
+    var any=Object.keys(hiE).length||Object.keys(hiN).length;
+    svg.setAttribute("class",any?"focus":"");
+    Object.keys(nodeEls).forEach(function(k){nodeEls[k].setAttribute("class",nodeEls[k].getAttribute("class").replace(/\s?(hi|pin)\b/g,"")+(hiN[k]?" hi":"")+(pin===k&&!play?" pin":""))});
+    EDGES.forEach(function(e){
+      var g=edgeEls[e.id].g,c="edge "+(e.c||"");
+      if(hiE[e.id])c+=" hi";if(numbers[e.id])c+=" has-n";if(nowE===e.id)c+=" now";if(doneE[e.id])c+=" done";
+      g.setAttribute("class",c);edgeEls[e.id].num.textContent=numbers[e.id]||"";
+    });
+    renderPanel();
+  }
+  function renderPanel(){
+    var id=hover||pin; panel.innerHTML="";
+    function add(tag,txt,cls){var x=document.createElement(tag);if(cls)x.className=cls;x.textContent=txt;panel.appendChild(x);return x}
+    if(!id){
+      add("div","Chi tiết","tag");add("p","Rê chuột vào một ô hoặc một mũi tên để thấy đường đi của nó. Bấm vào ô để ghim và đọc luật. Trên điện thoại, chạm một lần để xem, chạm lần hai để ghim.","hint");return;
+    }
+    var n=NODES[id];
+    add("div",pin===id?"Đang ghim · bấm lại để bỏ":"Đang xem","tag");add("h2",n.t);add("p",n.what);add("pre",n.code);add("div",n.ref,"ref");
+  }
+
+  // đường đi tự chạy
+  PATHS.forEach(function(p){
+    var b=document.createElement("button");b.type="button";b.className="pbtn";b.textContent=p.name;b.setAttribute("aria-pressed","false");b.setAttribute("data-id",p.id);
+    b.addEventListener("click",function(){startPlay(p)});bar.appendChild(b);
+  });
+  var stopBtn=document.createElement("button");stopBtn.type="button";stopBtn.className="pbtn ghost";stopBtn.textContent="Dừng";stopBtn.hidden=true;stopBtn.addEventListener("click",stopPlay);bar.appendChild(stopBtn);
+
+  function mark(){var bs=bar.querySelectorAll(".pbtn[data-id]");for(var i=0;i<bs.length;i++)bs[i].setAttribute("aria-pressed",play&&play.p.id===bs[i].getAttribute("data-id")?"true":"false");stopBtn.hidden=!play}
+  function startPlay(p){
+    clearTimeout(timer);hover=null;pin=null;hideTip();
+    play={p:p,i:0};mark();
+    if(reduce){showCaptionsStatic(p);paint();return}
+    step();
+  }
+  function step(){
+    var s=play.p.steps[play.i];
+    cap.innerHTML="";var n=document.createElement("div");n.className="n";n.textContent="Bước "+(play.i+1)+" / "+play.p.steps.length+" · "+play.p.name;cap.appendChild(n);
+    var t=document.createElement("div");t.textContent=s[1];cap.appendChild(t);
+    paint();
+    if(play.i<play.p.steps.length-1){timer=setTimeout(function(){play.i++;step()},3600)}
+    else{timer=setTimeout(function(){if(play){var p=play.p;play.i=p.steps.length-1;cap.firstChild.textContent="Xong · "+p.name+" · bấm Dừng hoặc chọn đường khác"}},3600)}
+  }
+  function showCaptionsStatic(p){
+    cap.innerHTML="";var n=document.createElement("div");n.className="n";n.textContent=p.name;cap.appendChild(n);
+    var ol=document.createElement("ol");p.steps.forEach(function(s){var li=document.createElement("li");li.textContent=s[1];ol.appendChild(li)});cap.appendChild(ol);
+  }
+  function stopPlay(){clearTimeout(timer);play=null;mark();cap.innerHTML='<span class="hint">Chọn một đường đi ở trên để xem một lá bài chạy hết vòng. Mỗi đường dùng một ví dụ riêng của kiếp 1 (Tần, thợ rèn).</span>';paint()}
+
+  paint();
+})();
+</script>
