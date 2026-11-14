@@ -6,6 +6,8 @@
 - [Thế giới thường (11–20)](02-the-gioi-thuong.md)
 - [Thế giới phép thuật (21–30)](03-the-gioi-phep-thuat.md)
 
+- [Rà soát và đề xuất bổ sung](ra-soat.md): khúc quanh và yếu tố riêng cho từng kiếp, sáu kiếp ngược khuôn, hai kiếp thẳng, kịch bản đầy đủ của kiếp 31
+
 ## Cách đọc một kịch bản
 
 | Mục | Ý nghĩa trong game |

@@ -49,7 +49,7 @@ Mỗi khoảnh khắc +8, mỗi kiếp có 3. Lá Định mệnh được nhân 
 | Khoảnh khắc then chốt, 3 × 8 | 24 |
 | Tổng | 112, cắt về 100 |
 
-Ngưỡng trọn vẹn là 80. Người chơi có thể bỏ sót vài sự kiện hoặc một khoảnh khắc then chốt mà vẫn trọn vẹn, nhưng lỡ một bước ngoặt (mất 20 điểm so với đi đúng) thì gần như phải làm đủ mọi thứ còn lại.
+Ngưỡng trọn vẹn là 85. Người chơi có thể bỏ sót vài sự kiện hoặc một khoảnh khắc then chốt mà vẫn trọn vẹn, nhưng lỡ một bước ngoặt (mất 20 điểm so với đi đúng) thì gần như phải làm đủ mọi thứ còn lại.
 
 ## 3. Nhân vật quyết định bước ngoặt thế nào
 
@@ -78,9 +78,9 @@ Một thứ làm lệch cán cân:
 
 | Mức | Điều kiện |
 |-----|-----------|
-| Trọn vẹn | Thước đo từ 80 trở lên **và** bước ngoặt mùa Đông đi đúng hướng |
-| Dang dở | Thước đo 40–79, hoặc từ 80 trở lên nhưng lỡ bước ngoặt mùa Đông |
-| Lạc lối | Thước đo dưới 40 |
+| Trọn vẹn | Thước đo từ 85 trở lên **và** bước ngoặt mùa Đông đi đúng hướng |
+| Dang dở | Thước đo 45–84, hoặc từ 85 trở lên nhưng lỡ bước ngoặt mùa Đông |
+| Lạc lối | Thước đo dưới 45 |
 
 Bước ngoặt mùa Đông là hành động khép lại mục đích. Không có nó thì dù vun đắp cả đời cũng chỉ là dang dở.
 
@@ -166,7 +166,7 @@ Nếu người chơi tin vào mục đích giả và thả thêm hai lá hầm n
 ## 7. Những điểm do Claude tự quyết, cần bạn duyệt
 
 - Toàn bộ thang điểm: +4, +2, +1, trần 10 mỗi mùa, +12 và −8 ở bước ngoặt, +8 cho khoảnh khắc then chốt.
-- Ngưỡng 80 và 40, và điều kiện bắt buộc về bước ngoặt mùa Đông. Các con số này đã chỉnh bằng mô phỏng, xem `danh-gia-thiet-ke.md`.
+- Ngưỡng 85 và 45 (đã nâng theo yêu cầu làm khó hơn, xem `khuc-quanh.md`), và điều kiện bắt buộc về bước ngoặt mùa Đông. Các con số này đã chỉnh bằng mô phỏng, xem `danh-gia-thiet-ke.md`.
 - Cách nhân vật quyết định bước ngoặt bằng hai con số đà.
 - Mục đích giả không trừ điểm trực tiếp mà đẩy nhân vật chọn sai ở bước ngoặt.
 - Mỗi kiếp cần bốn câu "giá như" thay vì một. Mình đã viết cho ba kiếp ví dụ. 27 kiếp còn lại trong `scenarios/` mới có một câu.

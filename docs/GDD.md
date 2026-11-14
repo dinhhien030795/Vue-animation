@@ -13,6 +13,8 @@ Tên game: chưa chốt.
 | `quyen-nang-va-mo-khoa.md` | Chỗ thả bài, chạm, cách mở khoá |
 | `ghep-bai.md` | Luật ghép bài (bản đầy đủ) |
 | `cham-muc-dich.md` | Công thức chấm mục đích |
+| `khuc-quanh.md` | Biến cố bất ngờ của cốt truyện, mức khó |
+| `scenarios/ra-soat.md` | Rà soát 30 kịch bản, đề xuất bổ sung |
 | `chi-tiet-ban-choi-thu.md` | Công thức nhận sự kiện, hướng dẫn, tuyên đoán, giao diện, màn kết kiếp |
 | `danh-gia-thiet-ke.md` | Tự đánh giá, kết quả mô phỏng, rủi ro |
 

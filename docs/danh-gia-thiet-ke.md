@@ -101,6 +101,10 @@ Không khế ước:
 - Không mô phỏng kỷ vật, chạm, tuyên đoán, xin giải khế ước.
 - Con số 52% là đầu ra của mô hình, không phải dự đoán về người chơi thật.
 
+### 2.7. Cập nhật: mức khó đã được nâng
+
+Sau bản đánh giá này, bạn yêu cầu khó hơn. Ngưỡng trọn vẹn và dang dở đã nâng lên 85 và 45, và mỗi kiếp có thêm một khúc quanh. Bảng 2.4 ở trên là số của mức cũ. Số mới nằm ở `khuc-quanh.md`, mục 6: người chơi thăm dò trọn vẹn 32% thay vì 52%.
+
 ## 3. Rủi ro còn mở
 
 ### 3.1. Người chơi có thể đoán được khuôn mẫu

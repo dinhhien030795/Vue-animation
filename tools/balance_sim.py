@@ -38,10 +38,11 @@ P = dict(  # các con số của thiết kế, chỉnh ở đây (bộ G sau khi
     faith_start=5, faith_max=10, plays=8, hand=4,
     full_rush=4, full_accept=2, half_rush=1, season_cap=10,
     turn_right=12, turn_wrong=-8, key=8, key_chance=0.15,
-    t_full=80, t_part=40, hammer_chance=0.4,
+    t_full=85, t_part=45, hammer_chance=0.4,
     # tín ngưỡng và lòng tin: chỉ lá từ chối được (thử thách, gặp gỡ, cơ hội) mới đem lại
     f_success=1, f_fail=0, f_rush=1, tr_success=2, tr_rush=3, tr_oblige=-4, tr_fail=-5, tr_oblige_fail=-15,
     tr_bien=-3, trust_pull=0.25, gain_only_refusable=True,
+    twist_turns=3,                        # số lượt đầu mùa Thu người chơi phải suy luận lại sau khúc quanh
     spring_bias=0, hieu_accuracy=0.85,   # người đã hiểu vẫn thả sai chỗ 15% số lần
 )
 
@@ -82,7 +83,9 @@ def play_life(strategy, contract=None):
         for turn in range(P["plays"]):
             afford = [c for c in hand if CARDS[c][0] <= faith]
             mode = strategy
-            if strategy == "thamdo":      # thăm dò ở Xuân và nửa đầu Hạ, sau đó chơi như người đã hiểu
+            if season == "T" and turn < P["twist_turns"] and strategy in ("hieu", "thamdo"):
+                mode = "ngaunhien"            # khúc quanh giữa đời: điều đã hiểu không còn đúng hẳn
+            elif strategy == "thamdo":      # thăm dò ở Xuân và nửa đầu Hạ, sau đó chơi như người đã hiểu
                 mode = "ngaunhien" if (season == "X" or (season == "H" and turn < 4)) else "hieu"
             def rank(c):
                 hit, dec = CARDS[c][5], DECOY in CARDS[c][1]
