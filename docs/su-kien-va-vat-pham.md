@@ -269,7 +269,7 @@ Lá **Buổi chiều rảnh**, cùng điều kiện.
 
 - Bộ bài của thế giới thường và thế giới phép thuật.
 - Kỷ vật của 27 kiếp còn lại.
-- Khế ước đầu kiếp.
+- Khế ước đầu kiếp: đã thiết kế trong `khe-uoc.md`.
 - Cách thần mở lá bài mới qua các kiếp.
 - Bảng câu suy nghĩ chung theo khuynh hướng.
 - Công thức chi tiết của thước đo mục đích cho từng kiếp.
